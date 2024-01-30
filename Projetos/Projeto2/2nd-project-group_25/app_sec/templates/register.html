@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="jumbotron">
+    <h2 style="text-align: center; color: #206aaa;">Sign Up Form</h2>
+    {% from "includes/_formhelpers.html" import render_field %}
+    {% include 'includes/_flashmsg.html' %}
+    <form method="POST" action="">
+        {{ form.csrf_token }}
+        <div class="form-group">
+            {{render_field(form.first_name, class_="form-control")}}
+        </div>
+        <div class="form-group">
+            {{render_field(form.last_name, class_="form-control")}}
+        </div>
+        <div class="form-group">
+            {{render_field(form.email, class="form-control")}}
+        </div>
+        <div class="form-group">
+            {{render_field(form.username, class="form-control")}}
+        </div>
+        <div class="form-group" style="position: relative; display: flex; align-items: center; margin-top: 3.5%;">
+            {{render_field(form.password, class="password-field form-control", style="flex-grow: 1;")}}
+            <span class="fa fa-eye pass-status" style="cursor: pointer; position: absolute; right: 10px;"></span>
+        </div>
+        <p style="font-size: 15px;">Password Strength meter (recommend)</p>
+        <div class="password-strength-meter" style="width: 100%; height: 5px; background-color: #ddd; position: relative;">
+            <div class="password-strength-meter-bar" style="height: 100%; width: 0%; background-color: red; transition: width 0.3s ease-in-out;"></div>
+            <div class="password-strength-tooltip" style="display: none; position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%); padding: 5px; border: 1px solid #ddd; background-color: white; z-index: 100;">
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li id="length12-criteria" style="color: red;">&#10006; Minimum 12 chars</li>
+                    <li id="uppercase-criteria" style="color: red;">&#10006; Include Capital Letters</li>
+                    <li id="number-criteria" style="color: red;">&#10006; Include Numbers</li>
+                    <li id="specialchar-criteria" style="color: red;">&#10006; Include Special Symbols (ex: .;/)</li>
+                </ul>
+            </div>
+        </div>
+        <div class="form-group">
+            {{render_field(form.mobile, class="form-control")}}
+        </div>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <p>
+            <input type="submit" class="btn btn-primary" value="Sign Up">
+        </p>
+    </form>
+</div>
+<script src="{{ url_for('static', filename='../static/js/register.js') }}"></script>
+    
+{% endblock %}

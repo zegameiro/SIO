@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+{% block body %}
+<!-- Page Content -->
+<br />
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="list-group">
+                <a href="/profile" class="list-group-item">Order List</a>
+                <a href="/shoppingcart" class="list-group-item">Shopping Cart</a>
+                <a href="/settings" class="list-group-item active">Settings</a>
+                <a href="/update_password" class="list-group-item">Update Password</a>
+            </div>
+        </div>
+        <!-- /.col-lg-3 -->
+        <div class="col-lg-9">
+            {% include 'includes/_flashmsg.html' %}
+            <div class="card card-default my-4">
+                <div class="card-header">
+                    <i class="fa fa-bar-chart-o fa-fw"></i>Update profile info
+                </div>
+                <!-- /.panel-heading -->
+                <div class="card-body">
+                    {% if result %}
+                        {% from "includes/_formhelpers.html" import render_field %}
+                        <form method="POST" action="">
+                            {{ form.csrf_token }}
+                            <div class="form-group">
+                                {{render_field(form.first_name, class_="form-control", value=result.first_name)}}
+                            </div>
+                            <div class="form-group">
+                                {{render_field(form.last_name, class_="form-control", value=result.last_name)}}
+                            </div>
+                            <div class="form-group">
+                                {{render_field(form.username, class_="form-control", value=result.username)}}
+                            </div>
+                            <div class="form-group">
+                                {{render_field(form.email, class="form-control", value=result.email)}}
+                            </div>
+                            <div class="form-group">
+                                {{render_field(form.description, class_="form-control", id="description", data_description=result.descript)}}
+                            </div>
+                            <div class="form-group">
+                                {{render_field(form.mobile, class="form-control", value=result.phoneNum)}}
+                            </div>
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <p>
+                                <input type="submit" class="btn btn-primary" value="Update Profile">
+                            </p>
+                        </form>
+                    {% endif%}
+                </div>
+                <!-- /.panel-body -->
+            </div>
+        </div>
+        <!-- /.col-lg-9 -->
+
+    </div>
+    <!-- /.row -->
+
+</div>
+<!-- /.container -->
+<br />
+<br />
+
+<script src="{{ url_for('static', filename='../static/js/profile_description.js') }}"></script>
+{% endblock %}

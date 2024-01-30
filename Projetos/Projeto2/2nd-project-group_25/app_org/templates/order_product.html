@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+{% block body %}
+<!-- Page Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3">
+            {% include 'includes/_flashmsg.html' %}
+            {% for ca in prod_category  %}
+                <h1 class="my-4">{{ ca.nome }}</h1>
+            {% endfor %}
+            <div class="list-group">
+                {% for cat in cats %}
+                    {% for c in prod_category %}
+                        {% if cat.catID == c.catID  %}
+                            <a href="/category?catID={{cat.catID}}" class="list-group-item active">{{ cat.nome }}</a>
+                        {% else %}
+                            <a href="/category?catID={{cat.catID}}" class="list-group-item">{{ cat.nome }}</a>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+        <!-- /.col-lg-3 -->
+        <div class="col-lg-9">
+            <div class="row">
+                {% for product in prods %}
+                    <div class="col-lg-6">
+                        <div class="card mt-4">
+                            <img class="card-img-top img-fluid"
+                                src="static/products/{{product.prodID}}.png" alt="">
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                    <div class="col-lg-6">
+                        <div class="card card-outline-secondary my-4">
+                            <div class="card-header">
+                                Order Details
+                            </div>
+                            <div class="card-body">
+                                {% from "includes/_formhelpers.html" import render_field %}
+                                <form method="POST" action="/category?catID={{ product.catID }}&order={{product.prodID}} ">
+                                    <div class="form-group">
+                                        {{render_field(form.quantity, class_="form-control")}}
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Add to Shoping Cart</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <!-- /.card -->
+            </div>
+        </div>
+        <!-- /.col-lg-9 -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'pages/layout.html' %}
+{% block body %}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Setup Two-Factor Authentication</h1>
+            {% include 'includes/_flashmsg.html' %}
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Please Setup Two-Factor Authentication</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title font-weight-bold">How to setup your Authenticator app</h3>
+                        </div>
+                        <div class="panel-body">
+                          <p class="panel-text">Need help to setup two-factor authentication? Follow the list of instructions below!</p>
+                          <ol>
+                            <li>
+                                <div class="font-weight-bold">Install an Authenticator app on your device, preferably, your mobile device.</div>
+                                Here are some Authenticator applications available for iPhone or Android mobile systems:
+                                <ul>
+                                    <li>Google Authenticator</li>
+                                    <li>Authy</li>
+                                    <li>2FAS</li>
+                                    <li>Aegis Authenticator</li>
+                                </ul>
+                            </li>
+                            <li>Open the Authenticator app.</li>
+                            <li>Select the option to add a new secret key (configuration code) or the option to read a QR code image.</li>
+                            <li>Insert the secret key below after revealing it.</li>
+                            <li>Alternatively, read the provided QR code image with the respective aforementioned option.</li>
+                          </ol>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-body text-center" id="secretKey">
+                                    {{ secret }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="data:image/png;base64, {{ qr_code }}" alt="Secret Token" style="width:200px;height:200px"/>
+                        </div>
+                    </div>
+
+                    {% from "includes/_formhelpers.html" import render_field %}
+                    <form method="POST" action="">
+                        {{ form.csrf_token }}
+                        <div class="form-group">
+                            {{render_field(form.totp, class_="form-control")}}
+                        </div>
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <p>
+                            <input type="submit" class="btn btn-primary" value="Confirm Code">
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
