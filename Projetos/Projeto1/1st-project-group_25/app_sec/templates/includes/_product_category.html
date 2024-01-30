@@ -1,0 +1,21 @@
+<div class="text-center">
+    <h1 style="font-size: 36px; font-weight: bold; margin-bottom: 25px;"><a href="/category?catID={{ category_id }}">{{ category_name }}</a></h1>
+    <div class="row">
+        {% for product in products %}
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card mb-4 shadow hover">
+                <a href="/category?catID={{ product.catID }}&view={{ product.prodID }}">
+                    <div class="card-img-top id_{{ product.prodID }}"
+                        style="background: url('static/products/{{ product.prodID }}.png'); background-repeat: no-repeat; background-size: contain; background-position: center; height: 250px; width: 100%;"></div>
+                </a>
+                <div class="card-body">
+                    <h5><a class="card-title" href="/category?catID={{ product.catID }}&view={{ product.prodID }}">{{ product.nome }}</a></h5>
+                    <h4 class="text-secondary">{{ product.price }} €</h4>
+                    <span class="text-warning"></span>
+                </div>
+            </div>
+            <!-- /.card -->
+        </div>
+        {% endfor %}
+    </div>
+</div>

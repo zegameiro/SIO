@@ -1,0 +1,33 @@
+Entidades:
+
+1) Utilizador
+- Atributos: usrID, primeiro nome, último nome, username, password, nºtelefone, descrição, classe de permissão, data de criação
+
+2) Produto
+- Atributos: prodID, nome, preço, categoria(catID), stock, descrição, pontuação média (deriv.)
+
+3) Pedido efetivo
+- Atributos: reqID, data, quantidade total, preço total (deriv.), morada, estado
+
+4) Review
+- Atributos: reviewID, rating, crítica, data
+
+5) Categoria de Produto
+- Atributos: catID, nome
+
+Relacionamentos:
+
+(1-2) Wish list (M:N; opcional:opcional)
+
+(1-2) Carrinho de compras (M:N; opcional:opcional)
+- Atributos: prod_quant
+
+(1-4) Avalia (1:N; opcional:obrigatório)
+(2-4) Produto_Review (1:N; opcional:obrigatório)
+
+(1-3) Utilizador_Pedido (1:N; opcional:obrigatório)
+(3-2) Pedido_Produto (M:N; obrigatório:opcional)
+- Atributos: prod_quant
+
+(2-5) Categorizado (N:1; obrigatório:opcional)
+

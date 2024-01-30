@@ -1,0 +1,125 @@
+{% extends 'layout.html' %}
+{% block body %}
+<!-- Page Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3">
+            {% for ca in prod_category  %}
+                <h1 class="my-4">{{ ca.nome }}</h1>
+            {% endfor %}
+            <div class="list-group">
+                {% for cat in cats %}
+                    {% for c in prod_category %}
+                        {% if cat.catID == c.catID  %}
+                            <a href="/category?catID={{cat.catID}}" class="list-group-item active">{{ cat.nome }}</a>
+                        {% else %}
+                            <a href="/category?catID={{cat.catID}}" class="list-group-item">{{ cat.nome }}</a>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+        <!-- /.col-lg-3 -->
+        <div class="col-lg-9">
+            {% include 'includes/_flashmsg.html' %}
+            <div class="row">
+                {% for product in prods %}
+                    <div class="col-lg-6">
+                        <div class="card mt-4">
+                            <img class="card-img-top img-fluid"
+                                    src="static/products/{{product.prodID}}.png" alt="">
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                    <div class="col-lg-6">
+                        <div class="card card-outline-secondary my-4">
+                            <div class="card-header">
+                                Product Details
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">{{ product.nome }}</h3>
+                                <h4> {{ product.price }} €</h4>
+                                <p class="card-text">{{ product.descript }}</p>
+                                <a href="/category?catID={{product.catID}}&order={{ product.prodID }}" class="btn btn-success">Order Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="card card-outline-secondary my-4">
+                            <div class="card-header">
+                                Product Reviews
+                            </div>
+                            <div class="card-body">
+                                {% for review in reviews %}
+                                    <p><b>Author:</b> {{ review.username }}</p>
+                                    <p><b>Rating:</b> {{ review.rating }}</p>
+                                    <p><b>Comment: </b>{{ review.critique | safe}}</p>
+                                    <hr>
+                                    {% endfor %}
+                                    <button id="commentButton" class="btn btn-primary" onclick="showCommentForm()" >New Comment</button>                                    
+                                    {% if 'uid' in session %}
+                                    <div id="commentForm" style="display:none; margin-top:10px">
+                                        <form id="commentForm" action="" method="POST">
+                                            <div class="form-group">
+                                                <label for="rating">Rating</label>
+                                                <input type="text" class="form-control" id="rating" name="rating" placeholder="Rating">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="comment">Your Comment</label>
+                                                <textarea class="form-control" id="comment" name="comment" rows="4" cols="50" placeholder="Your Comment"></textarea>
+                                            </div>
+                                            <div>
+                                            <button id="SubmitButton" type="submit" class="btn btn-success float-left">Submit</button>
+                                            <button id="CancelButton" onclick="showCommentButton()"  class="btn btn-danger float-left ml-3">Cancel</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    {% else %}
+                                    <p style="margin-top: 20px;"><b>You need to be logged in to comment a product. Please <a style="color: blue;" href="{{ url_for('login') }}">login</a></b></p>
+                                    {% endif %}
+                            </div>
+                        </div>
+                {% endfor %}
+                <!-- /.card -->
+            </div>
+        </div>
+        <!-- /.col-lg-9 -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+
+
+<script>
+    function showCommentForm() {
+        var commentForm = document.getElementById("commentForm");
+        commentForm.style.display = "block";
+
+        var commentButton = document.getElementById("commentButton");
+        commentButton.style.display = "none";
+
+        var submitButton = document.getElementById("SubmitButton");
+        submitButton.style.display = "block";
+
+        var cancelButton = document.getElementById("CancelButton");
+        cancelButton.style.display = "block";
+    }
+
+    function showCommentButton() {
+        event.preventDefault(); // Evita o envio do formulário ao pressionar o botão Cancelar
+
+        var cancelButton = document.getElementById("CancelButton");
+        cancelButton.style.display = "none";
+
+        var commentButton = document.getElementById("commentButton");
+        commentButton.style.display = "block";
+
+        var commentForm = document.getElementById("commentForm");
+        commentForm.style.display = "none";
+
+        var SubmitButton = document.getElementById("SubmitButton");
+        SubmitButton.style.display = "none";
+    }
+</script>
+
+{% endblock %}

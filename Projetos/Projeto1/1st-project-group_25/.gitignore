@@ -1,0 +1,7 @@
+venv/
+env/
+analysis/gifs/images/*/
+analysis/gifs/images/!*.zip
+node_modules
+bower_components
+__pycache__/

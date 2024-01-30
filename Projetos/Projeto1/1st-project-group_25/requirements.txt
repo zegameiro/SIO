@@ -1,0 +1,7 @@
+Flask
+Flask-MySQLdb
+Flask-WTF
+Flask-CORS
+WTForms
+passlib
+Jinja2

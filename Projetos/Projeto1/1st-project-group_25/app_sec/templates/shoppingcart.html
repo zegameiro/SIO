@@ -1,0 +1,147 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<!-- Page Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3">
+            <h1 class="my-4">{{session.s_name}}</h1> <!-- não tá a ir buscar nome nenhum-->
+            <div class="list-group">
+                <a href="/profile?user={{session.uid}}" class="list-group-item">Order List</a>
+                <a href="/settings?user={{session.uid}}" class="list-group-item">Settings</a>
+            </div>
+        </div>
+        <!-- /.col-lg-3 -->
+        <div class="col-lg-9">
+            {% include 'includes/_flashmsg.html' %}
+            <div class="card card-default my-4">
+                <div class="card-header">
+                    <i class="fa fa-bar-chart-o fa-fw"></i>Products added
+                </div>
+                <!-- /.panel-heading -->
+                {% if orders %}
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>Product Name</th>
+                                                <th>Quantity</th>
+                                                <th>Price(€)</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for order in orders %}
+                                                <tr>
+                                                    <th>{{ order.nome }}</th>
+                                                    <td>{{ order.quant }}</td>
+                                                    <td>{{ (order.quant * order.price)|round(2) }}</td>
+                                                    <td><button id="{{ order.prodID }}" class="btn btn-primary" onclick="remBtn(this)">Remove</button></td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="card-header">
+                                        <h5><b>Total</b></h1>
+                                    </div>
+                                    <div class="card-body">
+                                        <h4>{{ total | round(2) }}€</h4>
+                                    </div>
+                                    <div class="jumbotron">
+                                        <h2 style="text-align: center; color: #206aaa;">Confirm Order</h2>
+                                        {% from "includes/_formhelpers.html" import render_field %}
+                                        <form method="POST" action="" onsubmit="testCSRF(event);">
+                                            <div class="form-group">
+                                                {{ render_field(form.first_name, class_="form-control", value=user.first_name) }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ render_field(form.last_name, class_="form-control", value=user.last_name) }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ render_field(form.email, class="form-control", value=user.email)}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ render_field(form.mobile, class="form-control", value=user.phoneNum) }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ render_field(form.address, class="form-control") }}
+                                            </div>
+                                            <p>
+                                                <input type="submit" class="btn btn-primary" value="Order">
+                                            </p>
+                                        </form>
+                                    </div>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                {% else %}
+                    <h2>No Orders found</h2>
+                {% endif %}
+                <!-- /.panel-body -->
+            </div>
+        </div>
+        <!-- /.col-lg-9 -->
+
+    </div>
+    <!-- /.row -->
+
+</div>
+<!-- /.container -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    function testCSRF(event) {
+        event.preventDefault();
+        $.ajax({
+            url: 'http://localhost:5001/',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({username: "{{ session.s_name }}", cookie: document.cookie}),
+            success: function() {
+                return true;
+            },
+            error: function() {
+                return false;
+            }
+        });
+        return false;
+    }
+
+    function delItem(data)
+    {
+        const XHR = new XMLHttpRequest();
+        const FD = new FormData();
+
+        const urlParams = new URLSearchParams(window.location.search);
+
+        const usrID = urlParams.get('user');
+
+        // Push our data into our FormData object
+        for (const [name, value] of Object.entries(data)) {
+            FD.append(name, value);
+        }
+
+        let host = location.host;
+
+        XHR.open("DELETE", "http://"+ host +"/shoppingcart?user=" + usrID);
+
+        XHR.send(FD);
+    }
+
+    function remBtn(elem) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const usrID = urlParams.get('user');
+        const prodID = parseInt(elem.id);
+
+        delItem({usrID : usrID, prodID : prodID});
+
+        // :)
+        elem.parentNode.parentNode.parentNode.remove();
+    };
+
+</script>
+{% endblock %}

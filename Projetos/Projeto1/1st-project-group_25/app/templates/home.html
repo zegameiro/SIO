@@ -1,0 +1,86 @@
+{% extends 'layout.html' %}
+{% block body %}
+<!-- Page Content -->
+<div class="container">
+    <div class="row">
+        <!-- /.col-lg-3 -->
+        <div class="col-lg-12">
+            {% include 'includes/_flashmsg.html' %}
+            <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner" role="listbox" style="max-height: 300px">
+                    <div class="carousel-item active">
+                        <img class="d-block img-fluid" src="static/images/DETI_Text.jpg" alt="Vista Frontal do DETI com Texto"
+                             width="1100" height="300">
+                    </div>
+                    <div class="carousel-item">
+                        <div class="d-flex align-items-end justify-content-center" style="height: 300px;">
+                            <img class="d-block img-fluid" src="static/images/FrenteDETI.jpg" alt="Vista Frontal do DETI" width="1100" height="300" style="object-position: bottom;">
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="d-flex align-items-center justify-content-center" style="height: 300px;">
+                            <img class="d-block img-fluid" src="static/images/DETI_Overhead.jpg" alt="Vista Frontal do DETI" width="1100" height="300" style="object-position: bottom;">
+                        </div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+
+            <!-- Clothing Section -->
+            {% with category_id=1, category_name='Clothing', products=Clothing %}
+                {% include 'includes/_product_category.html' %}
+            {% endwith %}
+
+            <!-- Banner -->
+            <div class=" mb-4 d-flex align-items-center justify-content-center" >
+                <div class="d-flex align-items-center justify-content-center" style="height: 360px;overflow: hidden;">
+                    <img class="d-block img-fluid" src="static/images/Deti_OverheadTheSequel.jpg" alt="Vista Frontal do DETI" width="1100" height="300" style="object-position: bottom;">
+                </div>
+            </div>
+            
+            <!-- Footwear Section -->
+            {% with category_id=2, category_name='Footwear', products=FootWear %}
+                {% include 'includes/_product_category.html' %}
+            {% endwith %}
+
+            <!-- Eletronics Section -->
+            {% with category_id=3, category_name='Eletronics', products=Eletronics %}
+                {% include 'includes/_product_category.html' %}
+            {% endwith %}
+
+            <!-- Ad -->
+            <div class="mb-4" style="height: 350px">
+                <b style="font-family: Helvetica, Arial, sans-serif; font-size: 32px;">AD: From 28 September to 1 October</b>
+                <div class="d-flex align-items-end justify-content-center" style="height: 300px;overflow: hidden;">
+                    <img class="d-block img-fluid" src="static/images/ENEI.png" alt="Advertisment" width="1100" height="300" style="object-position: bottom;">
+                </div>
+            </div>
+
+            <!-- Utilities Section -->
+            {% with category_id=4, category_name='Utilities', products=Utilities %}
+                {% include 'includes/_product_category.html' %}
+            {% endwith %}
+
+            <!-- Furniture Section -->
+            {% with category_id=5, category_name='Furniture', products=Furniture %}
+                {% include 'includes/_product_category.html' %}
+            {% endwith %}
+        </div>
+        <!-- /.col-lg-9 -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+{% endblock %}
